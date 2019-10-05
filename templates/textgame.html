@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<div class="container">
+<form>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Enter the text that you want to play with :</label>
+          <textarea class="form-control" name="input" id="input" rows="8"></textarea>
+        </div>
+</form> <br>
+<div align="center">
+<button type="button" class="btn btn-dark" onclick="document.getElementById('output').value=toTitleCase(document.getElementById('input').value)">Title Case</button>
+<button type="button" class="btn btn-dark" onclick="document.getElementById('output').value=camelize(document.getElementById('input').value)">Camel Case</button>
+<button type="button" class="btn btn-dark" onclick="document.getElementById('output').value=decamelize(document.getElementById('input').value," ")">Decamelize Text</button>
+<button type="button" class="btn btn-dark" onclick="document.getElementById('output').value=removePunc(document.getElementById('input').value)">Remove Punctuation</button>
+<button type="button" class="btn btn-dark" onclick="document.getElementById('output').value=removeNewLine(document.getElementById('input').value)">Remove New Line</button>
+</div>
+
+<form>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Output :</label>
+          <textarea class="form-control" name="output" id="output" rows="8" onclick="select(this)"></textarea>
+        </div>
+</form>
+</div>
+
+<script>
+    <!-- TITLE CASE -->
+        function toTitleCase(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                }
+            );
+        }
+
+        <!-- CAMEL CASE -->
+    function camelize(text) {
+        return text.replace(/^([A-Z])|[\s-_]+(\w)/g, function(match, p1, p2, offset) {
+            if (p2) return p2.toUpperCase();
+            return p1.toLowerCase();        
+        });
+    }
+
+    <!-- DECAMELIZE -->>
+    function decamelize(str, separator){
+        separator = typeof separator === 'undefined' ? '_' : separator;
+    
+        return str
+            .replace(/([a-z\d])([A-Z])/g, '$1' + separator + '$2')
+            .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + separator + '$2')
+            .toLowerCase();
+    }
+
+    <!-- REMOVE PUNCTUATION -->
+    function removePunc(str){
+        str = str.replace(/[^\w\s]|_/g, "")
+             .replace(/\s+/g, " ");
+        return str;
+    }
+
+    function removeNewLine(str){
+        str = str.replace(/(\r\n|\n|\r)/gm, " ");
+        return str;
+    }
+
+    
+</script>
+
+
+{% endblock %}
